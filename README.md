@@ -40,7 +40,8 @@ It supports two types of users: **Admin** and **Student**.
 
 1. Clone the repository:
 
-git clone [<your-repo-url>](https://github.com/athuls11/student-management-system.git)
+git clone [<your-repo-url>](https://github.com/athuls11/student-management-system.git) or
+git clone [<your-repo-url>](git@github.com:athuls11/student-management-system.git)
 cd student-management-system
 
 2. Install dependencies:

@@ -1,11 +1,19 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, Document } from "mongoose";
 
-const studentSchema = new Schema({
-  name: String,
-  email: { type: String, unique: true },
-  department: String,
-  password: String,
+export interface IStudent extends Document {
+  name: string;
+  email: string;
+  department: string;
+  password: string;
+  role: "STUDENT";
+}
+
+const studentSchema = new Schema<IStudent>({
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  department: { type: String, required: true },
+  password: { type: String, required: true },
   role: { type: String, default: "STUDENT" },
 });
 
-export default model("Student", studentSchema);
+export default model<IStudent>("Student", studentSchema);

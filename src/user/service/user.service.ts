@@ -1,10 +1,11 @@
 import bcrypt from "bcrypt";
+import mongoose from "mongoose";
 import Student from "../../models/Student";
 import Task from "../../models/Task";
 import { generateToken } from "../../utils/jwt";
 
 export const studentLogin = async (email: string, password: string) => {
-  const student = await Student.findOne({ email });
+  const student = await Student.findOne({ email }).select("+password");
 
   if (!student) {
     throw new Error("Invalid credentials");
@@ -13,7 +14,7 @@ export const studentLogin = async (email: string, password: string) => {
   const isMatch = await bcrypt.compare(password, student.password);
 
   if (!isMatch) {
-    throw new Error("Invalid credentials");
+    throw new Error("Incorrect password.");
   }
 
   return generateToken({
@@ -38,5 +39,8 @@ export const getTasks = async (studentId: string) => {
 };
 
 export const updateTaskStatus = async (taskId: string) => {
+  if (!mongoose.Types.ObjectId.isValid(taskId)) {
+    throw new Error("Invalid studentId format.");
+  }
   return Task.findByIdAndUpdate(taskId, { status: "COMPLETED" }, { new: true });
 };

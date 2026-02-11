@@ -12,8 +12,15 @@ const studentSchema = new Schema<IStudent>({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   department: { type: String, required: true },
-  password: { type: String, required: true },
+  password: { type: String, required: true, select: false },
   role: { type: String, default: "STUDENT" },
+});
+
+studentSchema.set("toJSON", {
+  transform: (_doc, ret) => {
+    delete (ret as any).password;
+    return ret;
+  },
 });
 
 export default model<IStudent>("Student", studentSchema);

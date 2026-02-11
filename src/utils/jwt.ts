@@ -1,0 +1,14 @@
+import jwt, { SignOptions } from "jsonwebtoken";
+
+export const generateToken = (payload: object): string => {
+  const secret = process.env.JWT_SECRET;
+  const expiresIn = process.env.JWT_EXPIRES_IN as SignOptions["expiresIn"];
+
+  if (!secret) {
+    throw new Error("JWT_SECRET is not defined");
+  }
+
+  return jwt.sign(payload, secret, {
+    expiresIn,
+  });
+};
